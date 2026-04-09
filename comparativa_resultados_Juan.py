@@ -359,8 +359,44 @@ for r in resultados_360:
 
 
 #%% 2 - Tau vs time / Temp
-#% 13 hs
+# 00
+fig200, ((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
 
+a.set_title('24.6 kA/m',loc='left')
+for i,e in enumerate(ciclos_0):
+    if '060dA' in e:
+        _,_,_, H_00,M_00,_ = lector_ciclos(ciclos_0[i])
+        a.plot(H_00/1000,M_00,'-',label=f'NF{i}')
+
+a2.set_title('34.7 kA/m',loc='left')
+for i,e in enumerate(ciclos_0):
+    if '090dA' in e:
+        _,_,_, H_01,M_01,_ = lector_ciclos(ciclos_0[i])
+        a2.plot(H_01/1000,M_01,'-',label=f'NF{i}')
+
+a3.set_title('45.9 kA/m',loc='left')
+for i,e in enumerate(ciclos_0):
+    if '120dA' in e:
+        _,_,_, H_02,M_02,_ = lector_ciclos(ciclos_0[i])
+        a3.plot(H_02/1000,M_02,'-',label=f'NF{i}')
+
+a4.set_title('58 kA/m',loc='left')
+for i,e in enumerate(ciclos_0):
+    if '152dA' in e:
+        _,_,_, H_03,M_03,_ = lector_ciclos(ciclos_0[i])
+        a4.plot(H_03/1000,M_03,'-',label=f'NF{i}')
+
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='upper left')
+
+a.set_ylabel('M (A/m)')
+a3.set_ylabel('M (A/m)')
+a3.set_xlabel('H (kA/m)')
+a4.set_xlabel('H (kA/m)')
+
+plt.suptitle(f'Comparativa ciclos promedio {label_0}\n300 kHz')
+plt.savefig('0_ciclos_promedio_120900_24_35_46_58.png',dpi=300)
 fig210, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=False,sharex=True)
 
 for i,r in enumerate(res_13):
