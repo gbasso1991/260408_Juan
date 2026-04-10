@@ -615,219 +615,261 @@ ax.set_ylabel('τ (ns)')
 ax.set_xlabel('indx')
 plt.suptitle(f'tau vs indx {label_360}\n300 kHz')    
 plt.savefig('1_tau_3609120_24_35_46_58_all.png',dpi=300)    
-#%% 3 - ESAR vs time / Temp
-#% 13 hs
-ESAR_13_100,ESAR_13_125,ESAR_13_150=[],[],[]
-fig310, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(10,6),constrained_layout=True,sharey=False,sharex=True)
+#%% 3 - Coercitivo 00
+fig300, ((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
 
-for i,r in enumerate(res_13):
-    if '38_100' in r.directorio:
-        ax.plot(r.time,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-        ESAR_13_100.append(r.SAR)
-for i,r in enumerate(res_13):
-    if '47_125' in r.directorio:
-        ax2.plot(r.time,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-        ESAR_13_125.append(r.SAR)
-for i,r in enumerate(res_13):
-    if '57_150' in r.directorio:
-        ax3.plot(r.time,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-        ESAR_13_150.append(r.SAR)
-for a in ax,ax2,ax3:
-    a.grid()
-    #a.legend(loc='best')
-    a.set_ylabel('ESAR (W/g)')
-ax.set_xlim(0,)
-ax3.set_xlabel('t (s)')
-ESAR_13_100 = ufloat(np.mean(np.concatenate(ESAR_13_100)),np.std(np.concatenate(ESAR_13_100)))
-ESAR_13_125 = ufloat(np.mean(np.concatenate(ESAR_13_125)),np.std(np.concatenate(ESAR_13_125)))
-ESAR_13_150 = ufloat(np.mean(np.concatenate(ESAR_13_150)),np.std(np.concatenate(ESAR_13_150)))
+a.set_title('24.6 kA/m',loc='left')
+a2.set_title('34.7 kA/m',loc='left')
+a3.set_title('45.9 kA/m',loc='left')
+a4.set_title('58.0 kA/m',loc='left')
 
-ax.text(0.98,0.2,f'ESAR = {ESAR_13_100:.2uS} W/g',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax.transAxes)
+for i,e in enumerate(res_00):
+    if '060dA' in e.directorio:
+        a.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '090dA' in e.directorio:
+        a2.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '120dA' in e.directorio:
+        a3.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '152dA' in e.directorio:
+        a4.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
 
-ax2.text(0.98,0.2,f'ESAR = {ESAR_13_125:.2uS} W/g',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax2.transAxes)
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='best')
 
-ax3.text(0.98,0.2,f'ESAR = {ESAR_13_150:.2uS} W/g',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax3.transAxes)    
-ax.set_title('38 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')    
-ax3.set_title('57 kA/m',loc='left')  
-plt.suptitle(f'ESAR vs time\n 13 hs - {conc_13:0.1f} g/L' )
-plt.savefig('3_ESAR_vs_time_13h_38_47_57.png',dpi=300)
+a.set_ylabel('H$_c$ (kA/m)')
+a3.set_ylabel('H$_c$ (kA/m)')
+a3.set_xlabel('indx')
+a4.set_xlabel('indx')
 
-fig311, (ax,ax2,ax3) = plt.subplots(3,1,figsize=(10,6),constrained_layout=True,sharey=False,sharex=True)
+plt.suptitle(f'Hc vs indx {label_0}\n300 kHz')
+plt.savefig('2_Hc_120900_24_35_46_58.png',dpi=300)
+plt.show()
 
-for i,r in enumerate(res_13):
-    if '38_100' in r.directorio:
-        ax.plot(r.temperatura,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-
-for i,r in enumerate(res_13):
-    if '47_125' in r.directorio:
-        ax2.plot(r.temperatura,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-
-for i,r in enumerate(res_13):
-    if '57_150' in r.directorio:
-        ax3.plot(r.temperatura,r.SAR,'.-',label=f'{str(i).zfill(2)}')
-
-for a in ax,ax2,ax3:
-    a.grid()
-    a.legend(loc='upper right')
-    a.set_ylabel('ESAR (W/g)')
-ax3.set_xlabel('T (°C)')
-ax.set_title('38 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')    
-ax3.set_title('57 kA/m',loc='left')  
-ax3.set_xlim(20,100)
-plt.suptitle(f'ESAR vs Temperatura\n 13 hs - {conc_13:0.1f} g/L' )
-plt.savefig('3_ESAR_vs_Temp_13h_38_47_57.png',dpi=300) 
-
-#%% 3 - Hc vs time / Temp
-# 13 hs
-HC_13_100,HC_13_125,HC_13_150=[],[],[]
-fig410, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(10,6),constrained_layout=True,sharey=False,sharex=True)
-
-for i,r in enumerate(res_13):
-    if '38_100' in r.directorio:
-        ax.plot(r.time,r.Hc,'.-',label=f'{str(i).zfill(2)}')
-        HC_13_100.append(r.Hc)
-
-for i,r in enumerate(res_13):
-    if '47_125' in r.directorio:
-        ax2.plot(r.time,r.Hc,'.-',label=f'{str(i).zfill(2)}')
-        HC_13_125.append(r.Hc)
-
-for i,r in enumerate(res_13):
-    if '57_150' in r.directorio:
-        ax3.plot(r.time,r.Hc,'.-',label=f'{str(i).zfill(2)}')
-        HC_13_150.append(r.Hc)
-
-for a in ax,ax2,ax3:
-    a.grid()
-    a.set_ylabel('Hc (kA/m)')
-
-ax.set_xlim(0,)
-ax3.set_xlabel('t (s)')
-
-HC_13_100 = ufloat(np.mean(np.concatenate(HC_13_100)),np.std(np.concatenate(HC_13_100)))
-HC_13_125 = ufloat(np.mean(np.concatenate(HC_13_125)),np.std(np.concatenate(HC_13_125)))
-HC_13_150 = ufloat(np.mean(np.concatenate(HC_13_150)),np.std(np.concatenate(HC_13_150)))
-
-ax.text(0.98,0.2,f'H$_c$ = {HC_13_100:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax.transAxes)
-
-ax2.text(0.98,0.2,f'H$_c$ = {HC_13_125:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax2.transAxes)
-
-ax3.text(0.98,0.2,f'H$_c$ = {HC_13_150:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax3.transAxes)
-
-ax.set_title('38 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')    
-ax3.set_title('57 kA/m',loc='left')
-
-plt.suptitle(f'Hc vs time\n 13 hs - {conc_13:0.1f} g/L')
-plt.savefig('4_Hc_vs_time_13h_38_47_57.png',dpi=300)
-
-#%% 5 - Mag Remanente vs time/Temp
-
-Mr_13_100,Mr_13_125,Mr_13_150=[],[],[]
-fig410, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(10,6),constrained_layout=True,sharey=False,sharex=True)
-
-for i,r in enumerate(res_13):
-    if '38_100' in r.directorio:
-        ax.plot(r.time,r.Mr,'.-',label=f'{str(i).zfill(2)}')
-        Mr_13_100.append(r.Mr)
-
-for i,r in enumerate(res_13):
-    if '47_125' in r.directorio:
-        ax2.plot(r.time,r.Mr,'.-',label=f'{str(i).zfill(2)}')
-        Mr_13_125.append(r.Mr)
-
-for i,r in enumerate(res_13):
-    if '57_150' in r.directorio:
-        ax3.plot(r.time,r.Mr,'.-',label=f'{str(i).zfill(2)}')
-        Mr_13_150.append(r.Mr)
-
-for a in ax,ax2,ax3:
-    a.grid()
-    a.set_ylabel('Mr (A/m)')
-
-ax.set_xlim(0,)
-ax3.set_xlabel('t (s)')
-
-Mr_13_100 = ufloat(np.mean(np.concatenate(Mr_13_100)),np.std(np.concatenate(Mr_13_100)))
-Mr_13_125 = ufloat(np.mean(np.concatenate(Mr_13_125)),np.std(np.concatenate(Mr_13_125)))
-Mr_13_150 = ufloat(np.mean(np.concatenate(Mr_13_150)),np.std(np.concatenate(Mr_13_150)))
-
-ax.text(0.98,0.2,f'H$_c$ = {Mr_13_100:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax.transAxes)
-
-ax2.text(0.98,0.2,f'H$_c$ = {Mr_13_125:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax2.transAxes)
-
-ax3.text(0.98,0.2,f'H$_c$ = {Mr_13_150:.2uS}',
-        bbox=dict(boxstyle="round", fc='C3',alpha=0.6,lw=1),
-        ha='right',va='top',
-        transform=ax3.transAxes)
-
-ax.set_title('38 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')    
-ax3.set_title('57 kA/m',loc='left')
-
-plt.suptitle(f'Mr vs time\n 13 hs - {conc_13:0.1f} g/L')
-plt.savefig('4_Mr_vs_time_13h_38_47_57.png',dpi=300)
-
-#%% Ciclos todos
-_,_,_, H_13_100,M_13_100,_ = lector_ciclos(ciclos_13[1])
-_,_,_, H_13_125,M_13_125,_ = lector_ciclos(ciclos_13[4])
-_,_,_, H_13_150,M_13_150,_ = lector_ciclos(ciclos_13[8])
-
-fig40, ax2 =plt.subplots(figsize=(7,6),constrained_layout=True,sharey=True,sharex=False)
-
-for i,e in enumerate(ciclos_13):
-    if '100dA' in e:
-        _,_,_, H_13,M_13,_ = lector_ciclos(ciclos_13[i])
-        ax2.plot(H_13/1000,M_13,'-',c='C0',label=f'38 {i}',alpha=0.8)
- 
-    if '125dA' in e:
-        _,_,_, H_13,M_13,_ = lector_ciclos(ciclos_13[i])
-        ax2.plot(H_13/1000,M_13,'-',c='C1',label=f'47 {i}',alpha=0.8)
-
-    if '150dA' in e:
-        _,_,_, H_13,M_13,_ = lector_ciclos(ciclos_13[i])
-        ax2.plot(H_13/1000,M_13,'-',c='C2',label=f'57 {i}',alpha=0.8)
-# ax2.plot(H_13_125/1000,M_13_125,'-',label='47')
-# ax2.plot(H_13_150/1000,M_13_150,'-',label='57')
-
+fig301,ax = plt.subplots(figsize=(10,6),constrained_layout=True)
+for i,e in enumerate(res_00):
+    if '060dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C0',label='24.6 kA/m' if i==0 else None)
         
-ax.set_ylabel('M (A/m)')
-ax2.set_title(f'13 hs   C={conc_13:0.1f} g/L',loc='left')
+    elif '090dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C1',label='34.7 kA/m' if i==3 else None)
+        
+    elif '120dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C2',label='45.9 kA/m' if i==7 else None)
+        
+    elif '152dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C3',label='58.0 kA/m' if i==10 else None)
 
-ax.set_xticks([-57,-47,-38,0,38,47,57])
-ax2.set_xticks([-57,-47,-38,0,38,47,57])
-ax3.set_xticks([-57,-45,-38,0,38,45,57])
-for a in ax,ax2,ax3:
-    a.grid()
-    a.set_xlabel('H (kA/m)')
-    a.legend(title='H$_0$ (kA/m)',loc='upper left',ncol=3)
-plt.suptitle('Comparativa ciclos promedio @cit\n300 kHz')
-plt.savefig('0_comparativa_ciclos_internos_08_13_18_hs.png',dpi=300)
+ax.grid()
+ax.legend(loc='best',ncol=4)
+ax.set_ylabel('τ (ns)')
+ax.set_xlabel('indx')
 
+plt.suptitle(f'Hc vs indx {label_0}\n300 kHz')
+plt.savefig('2_Hc_120900_24_35_46_58_all.png',dpi=300)
+#%% Hc 10
+fig302,((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
 
+a.set_title('24.6 kA/m',loc='left')
+a2.set_title('34.7 kA/m',loc='left')
+a3.set_title('45.9 kA/m',loc='left')
+a4.set_title('58.0 kA/m',loc='left')
+
+for i,e in enumerate(res_10):
+    if '060dA' in e.directorio:
+        a.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '090dA' in e.directorio:
+        a2.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '120dA' in e.directorio:
+        a3.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '152dA' in e.directorio:
+        a4.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='best')
+
+a.set_ylabel('τ (ns)')
+a3.set_ylabel('τ (ns)')
+a3.set_xlabel('indx')
+a4.set_xlabel('indx')
+
+plt.suptitle(f'Hc vs indx {label_10}\n300 kHz')
+plt.savefig('2_Hc_120910_24_35_46_58.png',dpi=300)
+plt.show()
+
+fig303,ax = plt.subplots(figsize=(10,6),constrained_layout=True)
+for i,e in enumerate(res_10):
+    if '060dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C0',label='24.6 kA/m' if i==0 else None)
+        
+    elif '090dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C1',label='34.7 kA/m' if i==3 else None)
+        
+    elif '120dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C2',label='45.9 kA/m' if i==7 else None)
+        
+    elif '152dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C3',label='58.0 kA/m' if i==10 else None)
+
+ax.grid()
+ax.legend(loc='best',ncol=4)
+ax.set_ylabel('τ (ns)')
+ax.set_xlabel('indx')
+
+plt.suptitle(f'Hc vs indx {label_10}\n300 kHz')
+plt.savefig('2_Hc_120910_24_35_46_58_all.png',dpi=300)
+#%% Hc 60
+fig304,((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
+
+a.set_title('24.6 kA/m',loc='left')
+a2.set_title('34.7 kA/m',loc='left')
+a3.set_title('45.9 kA/m',loc='left') 
+a4.set_title('58.0 kA/m',loc='left')
+
+for i,e in enumerate(res_60):
+    if '060dA' in e.directorio:
+        a.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '090dA' in e.directorio:
+        a2.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '120dA' in e.directorio:
+        a3.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '152dA' in e.directorio:
+        a4.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='best')
+
+a.set_ylabel('τ (ns)')
+a3.set_ylabel('τ (ns)')
+a3.set_xlabel('indx')
+a4.set_xlabel('indx')
+
+plt.suptitle(f'Hc vs indx {label_60}\n300 kHz')
+plt.savefig('2_Hc_120960_24_35_46_58.png',dpi=300)
+plt.show()
+
+fig305,ax = plt.subplots(figsize=(10,6),constrained_layout=True)
+for i,e in enumerate(res_60):
+    if '060dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C0',label='24.6 kA/m' if i==0 else None)
+        
+    elif '090dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C1',label='34.7 kA/m' if i==3 else None)
+        
+    elif '120dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C2',label='45.9 kA/m' if i==7 else None)
+        
+    elif '152dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C3',label='58.0 kA/m' if i==10 else None)
+
+ax.grid()
+ax.legend(loc='best',ncol=4)
+ax.set_ylabel('τ (ns)')
+ax.set_xlabel('indx')
+plt.suptitle(f'Hc vs indx {label_60}\n300 kHz')
+plt.savefig('2_Hc_120960_24_35_46_58_all.png',dpi=300) 
+#%% Hc 120
+fig306,((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
+
+a.set_title('24.6 kA/m',loc='left')
+a2.set_title('34.7 kA/m',loc='left')
+a3.set_title('45.9 kA/m',loc='left') 
+a4.set_title('58.0 kA/m',loc='left')
+
+for i,e in enumerate(res_120):
+    if '060dA' in e.directorio:
+        a.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '090dA' in e.directorio:
+        a2.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '120dA' in e.directorio:
+        a3.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '152dA' in e.directorio:
+        a4.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='best')
+
+a.set_ylabel('τ (ns)')
+a3.set_ylabel('τ (ns)')
+a3.set_xlabel('indx')
+a4.set_xlabel('indx')
+
+plt.suptitle(f'Hc vs indx {label_120}\n300 kHz')
+plt.savefig('2_Hc_1209120_24_35_46_58.png',dpi=300)
+plt.show()
+
+fig307,ax = plt.subplots(figsize=(10,6),constrained_layout=True)
+for i,e in enumerate(res_120):
+    if '060dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C0',label='24.6 kA/m' if i==0 else None)
+        
+    elif '090dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C1',label='34.7 kA/m' if i==3 else None)
+        
+    elif '120dA' in e.directorio:        
+        ax.plot(e.Hc,'.-',c='C2',label='45.9 kA/m' if i==7 else None)
+        
+    elif '152dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C3',label='58.0 kA/m' if i==10 else None)
+
+ax.grid()
+ax.legend(loc='best',ncol=4)
+ax.set_ylabel('τ (ns)')
+ax.set_xlabel('indx')
+plt.suptitle(f'Hc vs indx {label_120}\n300 kHz')    
+plt.savefig('2_Hc_1209120_24_35_46_58_all.png',dpi=300)    
+#%% Hc 360
+fig208,((a,a2),(a3,a4)) =plt.subplots(2,2,figsize=(10,8),constrained_layout=True,sharey=True,sharex=True)
+
+a.set_title('24.6 kA/m',loc='left')
+a2.set_title('34.7 kA/m',loc='left')
+a3.set_title('45.9 kA/m',loc='left') 
+a4.set_title('58.0 kA/m',loc='left')
+
+for i,e in enumerate(res_360):
+    if '060dA' in e.directorio:
+        a.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '090dA' in e.directorio:
+        a2.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '120dA' in e.directorio:
+        a3.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+    elif '152dA' in e.directorio:
+        a4.plot(e.Hc,'.-',label=f'{str(i).zfill(2)}')
+
+for i in [a,a2,a3,a4]:
+    i.grid()
+    i.legend(loc='best')
+
+a.set_ylabel('τ (ns)')
+a3.set_ylabel('τ (ns)')
+a3.set_xlabel('indx')
+a4.set_xlabel('indx')
+
+plt.suptitle(f'Hc vs indx {label_360}\n300 kHz')
+plt.savefig('2_Hc_3609120_24_35_46_58.png',dpi=300)
+plt.show()
+
+fig209,ax = plt.subplots(figsize=(10,6),constrained_layout=True)
+for i,e in enumerate(res_360):    
+    if '060dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C0',label='24.6 kA/m' if i==0 else None)
+        
+    elif '090dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C1',label='34.7 kA/m' if i==3 else None)
+        
+    elif '120dA' in e.directorio:        
+        ax.plot(e.Hc,'.-',c='C2',label='45.9 kA/m' if i==7 else None)
+        
+    elif '152dA' in e.directorio:
+        ax.plot(e.Hc,'.-',c='C3',label='58.0 kA/m' if i==10 else None)
+
+ax.grid()
+ax.legend(loc='best',ncol=4)
+ax.set_ylabel('τ (ns)')
+ax.set_xlabel('indx')
+plt.suptitle(f'Hc vs indx {label_360}\n300 kHz')    
+plt.savefig('2_Hc_3609120_24_35_46_58_all.png',dpi=300)    
+# %%
